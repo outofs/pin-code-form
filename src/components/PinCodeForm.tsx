@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Input from "./Input/Input";
 
 interface FormFields {
   pin_code: string;
@@ -90,29 +91,48 @@ const PinCodeForm = () => {
     }
   };
 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+  };
+
   return (
-    <div>
+    <form className="form" onSubmit={handleSubmit} autoComplete="off">
       <div>
         <p>PIN код</p>
-        <input value={formFields.pin_code} onChange={handlePinCodeChange} />
-        <input
+        <Input
+          value={formFields.pin_code}
+          placeholder="Введіть PIN"
+          isError={false}
+          onChange={handlePinCodeChange}
+        />
+        <Input
           value={formFieldsDuplicates.pin_code}
+          placeholder="Введіть повторно PIN"
+          isError={false}
           onChange={handlePinCodeDuplicateChange}
         />
       </div>
 
       <div>
         <p>PIN код під примусом</p>
-        <input
+        <Input
           value={formFields.forced_access_pin_code}
+          isError={false}
           onChange={handleForcedAccessPinCodeChange}
         />
-        <input
+        <Input
           value={formFieldsDuplicates.forced_access_pin_code}
+          isError={false}
           onChange={handleForcedAccessPinCodeDuplicateChange}
         />
       </div>
-    </div>
+
+      <div>
+        <button type="submit" className="submit-button">
+          Відправити
+        </button>
+      </div>
+    </form>
   );
 };
 
