@@ -97,37 +97,47 @@ const PinCodeForm = () => {
 
   return (
     <form className="form" onSubmit={handleSubmit} autoComplete="off">
-      <div>
-        <p>PIN код</p>
-        <Input
-          value={formFields.pin_code}
-          placeholder="Введіть PIN"
-          isError={false}
-          onChange={handlePinCodeChange}
-        />
-        <Input
-          value={formFieldsDuplicates.pin_code}
-          placeholder="Введіть повторно PIN"
-          isError={false}
-          onChange={handlePinCodeDuplicateChange}
-        />
+      <div className="input-block">
+        <p className="input-block__title">PIN код</p>
+        <div className="input-block__input-container">
+          <Input
+            value={formFields.pin_code}
+            placeholder="Введіть PIN"
+            isError={false}
+            onChange={handlePinCodeChange}
+          />
+        </div>
+        <div className="input-block__input-container">
+          <Input
+            value={formFieldsDuplicates.pin_code}
+            placeholder="Введіть повторно PIN"
+            isError={false}
+            onChange={handlePinCodeDuplicateChange}
+          />
+        </div>
       </div>
 
-      <div>
-        <p>PIN код під примусом</p>
-        <Input
-          value={formFields.forced_access_pin_code}
-          isError={false}
-          onChange={handleForcedAccessPinCodeChange}
-        />
-        <Input
-          value={formFieldsDuplicates.forced_access_pin_code}
-          isError={false}
-          onChange={handleForcedAccessPinCodeDuplicateChange}
-        />
+      <div className="input-block">
+        <p className="input-block__title">PIN код під примусом</p>
+        <div className="input-block__input-container">
+          <Input
+            value={formFields.forced_access_pin_code}
+            placeholder="Введіть PIN під примусом"
+            isError={false}
+            onChange={handleForcedAccessPinCodeChange}
+          />
+        </div>
+        <div className="input-block__input-container">
+          <Input
+            value={formFieldsDuplicates.forced_access_pin_code}
+            placeholder="Введіть повторно PIN під примусом"
+            isError={false}
+            onChange={handleForcedAccessPinCodeDuplicateChange}
+          />
+        </div>
       </div>
 
-      <div>
+      <div className="submit-button-container">
         <button type="submit" className="submit-button">
           Відправити
         </button>
