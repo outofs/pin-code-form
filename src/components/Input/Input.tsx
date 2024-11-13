@@ -3,35 +3,53 @@ import "./index.css";
 
 type Props = {
   value: string;
+  disabled: boolean;
   isError: boolean;
   placeholder?: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const Input: FC<Props> = ({ value, placeholder, isError, onChange }) => {
-  const [isPasswordVisible, setIsPasswordVsible] = useState<boolean>(false);
+const Input: FC<Props> = ({
+  value,
+  disabled,
+  placeholder,
+  isError,
+  onChange,
+}) => {
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
   return (
-    <div className="input-container">
-      <input
-        type={isPasswordVisible ? "text" : "password"}
-        autoComplete="new-password"
-        className="form-input"
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-      />
-
-      <button
-        type="button"
-        className="eye-icon"
-        onClick={() => setIsPasswordVsible(!isPasswordVisible)}
-      >
-        <img
-          src={`/assets/${isPasswordVisible ? "EyeClosed.svg" : "Eye.svg"}`}
+    <>
+      <div className={`input-container${isError ? " error" : ""}`}>
+        <input
+          type={isPasswordVisible ? "text" : "password"}
+          autoComplete="new-password"
+          className="form-input"
+          placeholder={placeholder}
+          disabled={disabled}
+          value={value}
+          onChange={onChange}
         />
-      </button>
-    </div>
+
+        <button
+          type="button"
+          className="eye-icon"
+          onMouseDown={() => setIsPasswordVisible(true)}
+          onMouseUp={() => {
+            setIsPasswordVisible(false);
+          }}
+          onTouchStart={() => setIsPasswordVisible(true)}
+          onTouchEnd={() => setIsPasswordVisible(false)}
+        >
+          <img
+            src={`/assets/${isPasswordVisible ? "EyeClosed.svg" : "Eye.svg"}`}
+          />
+        </button>
+      </div>
+      {isError && (
+        <p className="error-message">PIN-код повинен містити 4 цифри!</p>
+      )}
+    </>
   );
 };
 

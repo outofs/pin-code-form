@@ -1,9 +1,11 @@
 import React from "react";
 import PinCodeForm from "./components/PinCodeForm";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <div className="App">
+      <Toaster />
       <div className="header">
         <div>
           <img

@@ -29,6 +29,8 @@ body {
 }
 
 .form {
+  position: relative;
+  margin-top: 25%;
   max-width: 1024px;
   display: flex;
   align-items: center;
@@ -36,7 +38,7 @@ body {
 }
 
 .input-block {
-  margin-top: 48px;
+  margin-top: 10px;
 }
 
 .input-block__title {
@@ -46,14 +48,13 @@ body {
 }
 
 .input-block__input-container {
-  margin-top: 10px;
+  margin-top: 6px;
 }
 
 .input-container {
-  /* display: flex;
-  align-items: center; */
+  display: flex;
+  align-items: center;
   background-color: #c4d3eeab; /* Change to match the desired background */
-
   border: 1px solid #224582;
   padding: 10px 16px;
   border-radius: 8px 8px 0 0;
@@ -61,14 +62,41 @@ body {
   box-shadow: rgba(50, 64, 114, 0.4) 0px 6px 12px -2px,
     rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
   transition: 0.3s ease;
+  margin-bottom: 24px;
 }
 
 .input-container:hover {
-  background-color: #89a5d5;
+  background-color: #f1f7ff;
 }
 
 .input-container:focus-within {
-  background-color: #89a5d5;
+  background-color: #f1f7ff;
+}
+
+.error {
+  border: 1px solid #c01c1c;
+  background-color: #eec4c4ab;
+  box-shadow: rgba(192, 16, 16, 0.4) 0px 6px 12px -2px,
+    rgba(192, 16, 16, 0.3) 0px 3px 7px -3px;
+}
+
+.error:hover {
+  background-color: #ffeaeaab;
+}
+
+.error:focus-within {
+  background-color: #ffeaeaab;
+}
+
+.error-message {
+  margin-top: -14px;
+  color: #c01c1c;
+  font-size: 12px;
+}
+
+.server-error {
+  margin-top: 10px;
+  font-size: 24px;
 }
 
 .form-input {
@@ -77,11 +105,12 @@ body {
   outline: none;
   background: transparent;
   color: #224582;
-  font-size: 1rem;
+  font-size: 20px;
+  margin-right: 10px;
 }
 
-.styled-input::placeholder {
-  color: rgba(255, 255, 255, 0.6);
+.form-input::placeholder {
+  color: #89a5d5;
 }
 
 .eye-icon {
@@ -118,18 +147,27 @@ body {
 }
 
 .submit-button:hover {
-  background: var(--Primary-Primary, #4a7dd55f);
+  background: var(--Primary-Primary, #c4d3eeab);
   color: #224582;
+  transform: scale(1.05);
+}
+
+.submit-button:disabled {
+  background: var(--Primary-Primary, #22458244);
+  color: #fffef78c;
+  cursor: default;
+  border: none;
+  transform: scale(1);
 }
 
 @media (max-width: 1024px) {
   body {
-    background-size: 75%;
+    background-size: 100%;
   }
 }
 
 @media (max-width: 480px) {
   body {
-    background-size: 100%;
+    background-size: 150%;
   }
 }
