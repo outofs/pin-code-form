@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import Input from "./Input/Input";
 import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
+import { changePin } from "../util/api/apiMethods";
 
 interface FormFields {
-  pin_code: string;
-  forced_access_pin_code: string;
+  pin: string;
+  forced_pin: string;
 }
 
 interface FormErrors {
@@ -13,8 +15,8 @@ interface FormErrors {
 }
 
 const formFieldsDefaultValues: FormFields = {
-  pin_code: "",
-  forced_access_pin_code: "",
+  pin: "",
+  forced_pin: "",
 };
 
 const formErrorsDefaultValues: FormErrors = {
@@ -37,6 +39,7 @@ const errorToast = (message: string) =>
   });
 
 const PinCodeForm = () => {
+  const { code } = useParams();
   const [formFields, setFormFields] = useState<FormFields>(
     formFieldsDefaultValues
   );
@@ -55,7 +58,7 @@ const PinCodeForm = () => {
     if (result.length <= 4) {
       setFormFields((prev) => ({
         ...prev,
-        pin_code: result,
+        pin: result,
       }));
     }
 
@@ -80,7 +83,7 @@ const PinCodeForm = () => {
     if (result.length <= 4) {
       setFormFields((prev) => ({
         ...prev,
-        forced_access_pin_code: result,
+        forced_pin: result,
       }));
     }
 
@@ -100,14 +103,17 @@ const PinCodeForm = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    try {
-      setIsLoading(true);
-      console.log("Submit!");
-      errorToast("Error! Something went wrong! Please, try later!");
-    } catch (error) {
-      setErrorMessage((error as Error).message);
-    } finally {
-      setIsLoading(false);
+    if (!Boolean(code) && typeof code !== "string") {
+      return;
+    } else {
+      try {
+        setIsLoading(true);
+        await changePin({ code: code as string, ...formFields });
+      } catch (error: any) {
+        errorToast(error.message);
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -119,7 +125,7 @@ const PinCodeForm = () => {
         </p>
         <div className="input-block__input-container">
           <Input
-            value={formFields.pin_code}
+            value={formFields.pin}
             placeholder="Введіть PIN"
             disabled={isLoading}
             isError={formErrors.isPinCodeError}
@@ -134,7 +140,7 @@ const PinCodeForm = () => {
         </p>
         <div className="input-block__input-container">
           <Input
-            value={formFields.forced_access_pin_code}
+            value={formFields.forced_pin}
             placeholder="Введіть PIN"
             disabled={isLoading}
             isError={formErrors.isForcedAccessPinCode}
@@ -150,9 +156,10 @@ const PinCodeForm = () => {
           disabled={
             formErrors.isPinCodeError ||
             formErrors.isForcedAccessPinCode ||
-            !formFields.pin_code ||
-            !formFields.forced_access_pin_code ||
-            isLoading
+            !formFields.pin ||
+            !formFields.forced_pin ||
+            isLoading ||
+            !Boolean(code)
           }
         >
           {isLoading ? "Відправка..." : "Відправити"}
