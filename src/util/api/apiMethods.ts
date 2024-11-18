@@ -5,9 +5,12 @@ const path = process.env.REACT_APP_API_URL;
 export const changePin = async (
   changePinPayload: ChangePinPayload
 ): Promise<null> => {
-  const resp = await fetch(`${path}/pin_change`, {
+  const resp = await fetch(`${path}/pin_change/`, {
     method: "POST",
     body: JSON.stringify(changePinPayload),
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
 
   console.log(resp);

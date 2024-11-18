@@ -125,6 +125,7 @@ body {
 .eye-icon:focus {
   outline: none;
 }
+
 .submit-button-container {
   margin-top: 10px;
   display: flex;
@@ -160,14 +161,32 @@ body {
   transform: scale(1);
 }
 
+.success-message {
+  margin-top: 25%;
+  color: #224582;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+}
+
 @media (max-width: 1024px) {
   body {
     background-size: 100%;
+  }
+
+  .success-message {
+    margin-top: 50%;
+    font-size: 1.7rem;
   }
 }
 
 @media (max-width: 480px) {
   body {
     background-size: 150%;
+  }
+
+  .success-message {
+    margin-top: 75%;
+    font-size: 1.3rem;
   }
 }

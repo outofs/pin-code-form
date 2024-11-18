@@ -38,6 +38,20 @@ const errorToast = (message: string) =>
     },
   });
 
+const successToast = (message: string) =>
+  toast.success(message, {
+    style: {
+      border: "1px solid #224582",
+      padding: "16px",
+      color: "#224582",
+      fontSize: "20px",
+    },
+    iconTheme: {
+      primary: "#224582",
+      secondary: "#f1f7ff",
+    },
+  });
+
 const PinCodeForm = () => {
   const { code } = useParams();
   const [formFields, setFormFields] = useState<FormFields>(
@@ -48,7 +62,7 @@ const PinCodeForm = () => {
     formErrorsDefaultValues
   );
 
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [isCompleted, setIsCompleted] = useState<boolean>(false);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -109,6 +123,8 @@ const PinCodeForm = () => {
       try {
         setIsLoading(true);
         await changePin({ code: code as string, ...formFields });
+        successToast("Готово!");
+        setIsCompleted(true);
       } catch (error: any) {
         errorToast(error.message);
       } finally {
@@ -118,54 +134,63 @@ const PinCodeForm = () => {
   };
 
   return (
-    <form className="form" onSubmit={handleSubmit} autoComplete="off">
-      <div className="input-block">
-        <p className="input-block__title">
-          PIN-код<span style={{ color: "#c01c1c" }}>*</span>
+    <>
+      {isCompleted ? (
+        <p className="success-message">
+          <img src={`/assets/Tick.svg`} style={{ marginRight: "10px" }} />
+          PIN-коди успішно змінено!
         </p>
-        <div className="input-block__input-container">
-          <Input
-            value={formFields.pin}
-            placeholder="Введіть PIN"
-            disabled={isLoading}
-            isError={formErrors.isPinCodeError}
-            onChange={handlePinCodeChange}
-          />
-        </div>
-      </div>
+      ) : (
+        <form className="form" onSubmit={handleSubmit} autoComplete="off">
+          <div className="input-block">
+            <p className="input-block__title">
+              PIN-код<span style={{ color: "#c01c1c" }}>*</span>
+            </p>
+            <div className="input-block__input-container">
+              <Input
+                value={formFields.pin}
+                placeholder="Введіть PIN"
+                disabled={isLoading}
+                isError={formErrors.isPinCodeError}
+                onChange={handlePinCodeChange}
+              />
+            </div>
+          </div>
 
-      <div className="input-block">
-        <p className="input-block__title">
-          PIN-код під примусом<span style={{ color: "#c01c1c" }}>*</span>
-        </p>
-        <div className="input-block__input-container">
-          <Input
-            value={formFields.forced_pin}
-            placeholder="Введіть PIN"
-            disabled={isLoading}
-            isError={formErrors.isForcedAccessPinCode}
-            onChange={handleForcedAccessPinCodeChange}
-          />
-        </div>
-      </div>
+          <div className="input-block">
+            <p className="input-block__title">
+              PIN-код під примусом<span style={{ color: "#c01c1c" }}>*</span>
+            </p>
+            <div className="input-block__input-container">
+              <Input
+                value={formFields.forced_pin}
+                placeholder="Введіть PIN"
+                disabled={isLoading}
+                isError={formErrors.isForcedAccessPinCode}
+                onChange={handleForcedAccessPinCodeChange}
+              />
+            </div>
+          </div>
 
-      <div className="submit-button-container">
-        <button
-          type="submit"
-          className="submit-button"
-          disabled={
-            formErrors.isPinCodeError ||
-            formErrors.isForcedAccessPinCode ||
-            !formFields.pin ||
-            !formFields.forced_pin ||
-            isLoading ||
-            !Boolean(code)
-          }
-        >
-          {isLoading ? "Відправка..." : "Відправити"}
-        </button>
-      </div>
-    </form>
+          <div className="submit-button-container">
+            <button
+              type="submit"
+              className="submit-button"
+              disabled={
+                formErrors.isPinCodeError ||
+                formErrors.isForcedAccessPinCode ||
+                !formFields.pin ||
+                !formFields.forced_pin ||
+                isLoading ||
+                !Boolean(code)
+              }
+            >
+              {isLoading ? "Відправка..." : "Відправити"}
+            </button>
+          </div>
+        </form>
+      )}
+    </>
   );
 };
 
